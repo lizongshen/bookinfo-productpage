@@ -14,8 +14,8 @@ pipeline {
     stage('Docker build') {
       steps {
         container('docker') {
-          sh "docker build -t ${env.DOCKER_REPO} ."
-          sh "docker tag ${env.DOCKER_REPO} ${env.DOCKER_REPO}:${env.TAG}"
+          bat "docker build -t ${env.DOCKER_REPO} ."
+          bat "docker tag ${env.DOCKER_REPO} ${env.DOCKER_REPO}:${env.TAG}"
         }
       }
     }
@@ -23,7 +23,7 @@ pipeline {
       steps {
         container('docker') {
           withDockerRegistry([ credentialsId: "registry-creds", url: "" ]) {
-            sh "docker push ${env.DOCKER_REPO}:${env.TAG}"
+            bat "docker push ${env.DOCKER_REPO}:${env.TAG}"
           }
         }
       }
